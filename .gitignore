@@ -3,7 +3,8 @@ __pycache__
 tensorboard
 output
 /data
-
+Cornell dataset
 *.pyc
-
+robot/model
+venv
 /.python-version

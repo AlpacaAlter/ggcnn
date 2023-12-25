@@ -27,7 +27,6 @@ def graspQ(q_img, x, y):
     # as red channel
     q_img = cv2.merge([zeros, zeros, q_img])
     # Green point as center point
-    # array[r][c], cv2 [x, y], transpose needed
     q_img = cv2.circle(q_img, [x, y], 0, color=(0, 255, 0), thickness=3)
 
     return q_img
@@ -67,7 +66,7 @@ def graspRGB(rgb_img, angle, width, x, y):
     # draw the grasp on RGB image
     dy = int(np.floor(width / 2 * np.sin(angle)) / 3)
     dx = int(np.floor(width / 2 * np.cos(angle)) / 3)
-    # a point is represented by (x, y) in cv2, transpose needed
+
     start = [x - dx, y + dy]
     end = [x + dx, y - dy]
 
