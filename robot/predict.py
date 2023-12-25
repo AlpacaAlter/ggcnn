@@ -12,7 +12,7 @@ class GraspPredict:
         self.depth = np.zeros([300, 300])
 
     def depth_process(self, img):   # processing Depth image
-        depth = image.DepthImage.from_my_img(img)
+        depth = image.DepthImage(img)
         depth.inpaint()
         depth.normalise()
         self.depth = depth.img
