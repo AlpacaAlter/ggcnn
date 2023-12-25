@@ -127,8 +127,8 @@ class Robot(object):
         tz_vec = np.array([matrix[2], matrix[5], matrix[8]])  # 变换后的z轴
 
         cameraPos = [0.5, 0, 0.5] + 0.05 * tx_vec - 0.05 * tz_vec
-        # targetPos = cameraPos - 0.01 * tx_vec + 0.04 * tz_vec
-        targetPos = cameraPos + 0.04 * tz_vec
+        targetPos = cameraPos - 0.01 * tx_vec + 0.04 * tz_vec
+        # targetPos = cameraPos + 0.04 * tz_vec
         viewMatrix = self.bullet_client.computeViewMatrix(
             cameraEyePosition=cameraPos,
             cameraTargetPosition=targetPos,
