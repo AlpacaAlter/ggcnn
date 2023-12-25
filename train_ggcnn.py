@@ -28,10 +28,12 @@ def parse_args():
 
     # Network
     parser.add_argument('--network', type=str, default='ggcnn', help='Network Name in .models')
-
+    '''karuha 2023.12.1'''
+    parser.add_argument('--pre-trained', type=str, default='none', help='Path to Pre-trained model')
+    '''end'''
     # Dataset & Data & Training
-    parser.add_argument('--dataset', type=str, help='Dataset Name ("cornell" or "jaquard")')
-    parser.add_argument('--dataset-path', type=str, help='Path to dataset')
+    parser.add_argument('--dataset', type=str, default="cornell", help='Dataset Name ("cornell" or "jaquard")')
+    parser.add_argument('--dataset-path', type=str, default="Cornell dataset", help='Path to dataset')
     parser.add_argument('--use-depth', type=int, default=1, help='Use Depth image for training (1/0)')
     parser.add_argument('--use-rgb', type=int, default=0, help='Use RGB image for training (0/1)')
     parser.add_argument('--split', type=float, default=0.9, help='Fraction of data for training (remainder is validation)')
@@ -225,9 +227,23 @@ def run():
     ggcnn = get_network(args.network)
 
     net = ggcnn(input_channels=input_channels)
+
+    '''karuha 2023.12.1'''
+    '''load pre-trained model'''
+    if args.pre_trained != 'none':
+        net.load_state_dict(torch.load(args.pre_trained))
+
+        net.conv1.weight.requires_grad = False
+        net.conv1.bias.requires_grad = False
+        net.conv2.weight.requires_grad = False
+        net.conv2.bias.requires_grad = False
+        net.conv3.weight.requires_grad = False
+        net.conv3.bias.requires_grad = False
+    '''end'''
+
     device = torch.device("cuda:0")
     net = net.to(device)
-    optimizer = optim.Adam(net.parameters())
+    optimizer = optim.Adam(net.parameters(), lr=1e-4)
     logging.info('Done')
 
     # Print model architecture.
