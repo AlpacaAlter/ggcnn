@@ -34,10 +34,10 @@ p.loadURDF("table\\table.urdf", [0.8, 0, -0.625], [0, 0, 0, 1], flags=flags)
 obj = []
 # p.loadURDF("sphere_small.urdf", np.array([0.5, -0.2, 0.1]), flags=flags)
 # p.loadURDF("lego\\lego.urdf", np.array([0.5, 0.0, 0.1]), flags=flags)
-p.loadURDF("jenga/jenga.urdf", np.array([0.5, 0.0, 0.2]),
-           baseOrientation=p.getQuaternionFromEuler([0, 0, -math.pi/4]), flags=flags)
-# p.loadURDF("duck_vhacd.urdf", np.array([0.5, 0.0, 0.1]),
-#            baseOrientation=p.getQuaternionFromEuler([math.pi/2, 0, 0]), flags=flags)
+# p.loadURDF("jenga/jenga.urdf", np.array([0.5, 0.0, 0.2]),
+#            baseOrientation=p.getQuaternionFromEuler([0, 0, -math.pi/4]), flags=flags)
+p.loadURDF("duck_vhacd.urdf", np.array([0.5, 0.0, 0.1]),
+           baseOrientation=p.getQuaternionFromEuler([math.pi/2, 0, 0]), flags=flags)
 # p.loadURDF("cube_small.urdf", np.array([0.5, 0.0, 0.1]), flags=flags)
 # load GGCNN
 predict = GraspPredict(model_path)
