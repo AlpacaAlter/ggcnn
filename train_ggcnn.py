@@ -230,6 +230,7 @@ def run():
 
     '''karuha 2023.12.1'''
     '''load pre-trained model'''
+    lrate = 1e-3
     if args.pre_trained != 'none':
         net.load_state_dict(torch.load(args.pre_trained))
 
@@ -239,11 +240,12 @@ def run():
         net.conv2.bias.requires_grad = False
         net.conv3.weight.requires_grad = False
         net.conv3.bias.requires_grad = False
+        lrate = 1e-4
     '''end'''
 
     device = torch.device("cuda:0")
     net = net.to(device)
-    optimizer = optim.Adam(net.parameters(), lr=1e-4)
+    optimizer = optim.Adam(net.parameters(), lr=lrate)
     logging.info('Done')
 
     # Print model architecture.
