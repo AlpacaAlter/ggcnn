@@ -3,7 +3,7 @@ import numpy as np
 
 
 def frame_transform(pos, depth, width):
-    pos_cam, cam_angle, width = img_to_cam(pos, depth, width, [-0.01, 0, 0.04])
+    pos_cam, cam_angle, width = img_to_cam(pos, depth, width, [-0.00, 0, 0.04])
     grasp_pos = cam_to_robot(pos_cam, cam_angle)
 
     return grasp_pos, width
