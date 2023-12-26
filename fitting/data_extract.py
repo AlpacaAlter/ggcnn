@@ -33,8 +33,8 @@ for pos_f in graspf:
         # print(width, angle)
         ii.append(i)
     i = i + 1
-    # if i == 100:
-    #     break
+    if i == 50:
+        break
 
 ax.set_xlabel('item')
 ax.set_ylabel('width')
