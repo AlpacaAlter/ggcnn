@@ -7,7 +7,8 @@ from models.common import post_process_output
 from utils.dataset_processing import evaluation, grasp
 from utils.data import get_dataset
 
-from robot.predict import GraspPredict
+from robot import predict
+import matplotlib.pyplot as plt
 
 logging.basicConfig(level=logging.INFO)
 
@@ -17,7 +18,7 @@ def parse_args():
 
     # Network
     parser.add_argument('--network', type=str,
-                        default='D:\\proj\\pydoc\\pycharm\\ggcnn\\robot\\model\\plan2\\epoch_92_iou_0.72_statedict.pt',
+                        default='D:\\proj\\pydoc\\pycharm\\ggcnn\\robot\\model\\plan2\\epoch_92_iou_0.72',
                         help='Path to saved network to evaluate')
 
     # Dataset & Data & Training
@@ -26,7 +27,7 @@ def parse_args():
     parser.add_argument('--use-depth', type=int, default=1, help='Use Depth image for evaluation (1/0)')
     parser.add_argument('--use-rgb', type=int, default=0, help='Use RGB image for evaluation (0/1)')
     parser.add_argument('--augment', action='store_true', help='Whether data augmentation should be applied')
-    parser.add_argument('--split', type=float, default=0.9, help='Fraction of data for training (remainder is validation)')
+    parser.add_argument('--split', type=float, default=0.0, help='Fraction of data for training (remainder is validation)')
     parser.add_argument('--ds-rotate', type=float, default=0.0,
                         help='Shift the start point of the dataset to use a different test/train split')
     parser.add_argument('--num-workers', type=int, default=8, help='Dataset workers')
@@ -47,11 +48,12 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-
+    angle_l = []
+    width_l = []
+    i = []
     # Load Network
     net = torch.load(args.network)
     device = torch.device("cuda:0")
-    predict = GraspPredict(args.network)
 
     # Load Dataset
     logging.info('Loading {} Dataset...'.format(args.dataset.title()))
@@ -69,11 +71,6 @@ if __name__ == '__main__':
 
     results = {'correct': 0, 'failed': 0}
 
-    if args.jacquard_output:
-        jo_fn = args.network + '_jacquard_output.txt'
-        with open(jo_fn, 'w') as f:
-            pass
-
     with torch.no_grad():
         for idx, (x, y, didx, rot, zoom) in enumerate(test_data):
             logging.info('Processing {}/{}'.format(idx+1, len(test_data)))
@@ -85,6 +82,19 @@ if __name__ == '__main__':
                                                         lossd['pred']['sin'], lossd['pred']['width'])
 
             q_max, angle, width, [r, c] = predict.grasp(q_img, ang_img, width_img)
-            print(q_max)
+            i.append(idx)
+            angle_l.append(angle)
+            width_l.append(width)
 
+    fig = plt.figure(figsize=(10, 6))
+    # ax = fig.add_subplot(1, 1, 1)
+    ax = plt.axes(projection='3d')
+    my_cmap = plt.get_cmap('hsv')
+    ax.set_xlabel('item')
+    ax.set_ylabel('width')
+    ax.set_zlabel('angle')
+    p = ax.scatter3D(i, width_l, angle_l, c=angle_l, cmap=my_cmap)
+    fig.colorbar(p, ax=ax)
+    plt.show()
+    plt.close()
 

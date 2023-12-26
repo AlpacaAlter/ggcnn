@@ -65,7 +65,7 @@ while True:
         with torch.no_grad():
             predict.depth_process(depth)
             q_img, ang_img, width_img = predict.net_output()
-            q_max, angle, width, [r, c] = predict.grasp(q_img, ang_img, width_img)
+            q_max, angle, width, [r, c] = grasp(q_img, ang_img, width_img)
 
         [x, y] = [c, r]
         # show grasp in rgb_img

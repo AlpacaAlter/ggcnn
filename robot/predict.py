@@ -5,6 +5,17 @@ from utils.dataset_processing import image
 from models import common
 
 
+def grasp(q, angle, width):
+    # grasp point, angle, width
+    q_max = np.max(q)
+    idx = np.argmax(q)
+    r, c = int(idx // 300), int(idx % 300)
+    angle = angle[r][c]
+    width = width[r][c]
+
+    return q_max, angle, width, [r, c]
+
+
 class GraspPredict:
     def __init__(self, path):
         self.model = GGCNN()
@@ -22,16 +33,6 @@ class GraspPredict:
         pos, cos, sin, width = self.model(x)
         q_img, ang_img, width_img = common.post_process_output(pos, cos, sin, width)
         return q_img, ang_img, width_img
-
-    def grasp(self, q, angle, width):
-        # grasp point, angle, width
-        q_max = np.max(q)
-        idx = np.argmax(q)
-        r, c = int(idx // 300), int(idx % 300)
-        angle = angle[r][c]
-        width = width[r][c]
-
-        return q_max, angle, width, [r, c]
 
 
 

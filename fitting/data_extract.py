@@ -13,10 +13,6 @@ l = len(graspf)
 if l == 0:
     raise FileNotFoundError('No dataset files found. Check path: {}'.format(file_path))
 
-fig = plt.figure(figsize=(10, 6))
-# ax = fig.add_subplot(1, 1, 1)
-ax = plt.axes(projection='3d')
-my_cmap = plt.get_cmap('hsv')
 i = 0
 ii = []
 width = []
@@ -36,6 +32,10 @@ for pos_f in graspf:
     if i == 50:
         break
 
+fig = plt.figure(figsize=(10, 6))
+# ax = fig.add_subplot(1, 1, 1)
+ax = plt.axes(projection='3d')
+my_cmap = plt.get_cmap('hsv')
 ax.set_xlabel('item')
 ax.set_ylabel('width')
 ax.set_zlabel('angle')
