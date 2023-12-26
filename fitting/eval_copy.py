@@ -51,6 +51,7 @@ if __name__ == '__main__':
     angle_l = []
     width_l = []
     i = []
+
     # Load Network
     net = torch.load(args.network)
     device = torch.device("cuda:0")
