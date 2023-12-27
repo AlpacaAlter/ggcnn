@@ -22,15 +22,14 @@ for pos_f in graspf:
     grs = GraspRectangles.load_from_cornell_file(pos_f)
     for rectangle in grs.to_array():
         gr = GraspRectangle(rectangle)
-        # width = gr.width
-        # angle = gr.angle
-        width.append(gr.width)
+
+        width.append(gr.length)
         angle.append(gr.angle)
         # print(width, angle)
         ii.append(i)
     i = i + 1
-    if i == 50:
-        break
+    # if i == 50:
+    #     break
 
 fig = plt.figure(figsize=(10, 6))
 # ax = fig.add_subplot(1, 1, 1)

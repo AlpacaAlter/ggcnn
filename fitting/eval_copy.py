@@ -26,7 +26,7 @@ def parse_args():
     parser.add_argument('--dataset-path', type=str, default='../Cornell dataset', help='Path to dataset')
     parser.add_argument('--use-depth', type=int, default=1, help='Use Depth image for evaluation (1/0)')
     parser.add_argument('--use-rgb', type=int, default=0, help='Use RGB image for evaluation (0/1)')
-    parser.add_argument('--augment', action='store_true', help='Whether data augmentation should be applied')
+    parser.add_argument('--augment', action='store_true', default=0,  help='Whether data augmentation should be applied')
     parser.add_argument('--split', type=float, default=0.0, help='Fraction of data for training (remainder is validation)')
     parser.add_argument('--ds-rotate', type=float, default=0.0,
                         help='Shift the start point of the dataset to use a different test/train split')
@@ -45,6 +45,7 @@ def parse_args():
         raise ValueError('--jacquard-output can not be used with data augmentation.')
 
     return args
+
 
 if __name__ == '__main__':
     args = parse_args()
@@ -98,4 +99,6 @@ if __name__ == '__main__':
     fig.colorbar(p, ax=ax)
     plt.show()
     plt.close()
+
+
 
